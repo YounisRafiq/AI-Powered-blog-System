@@ -1,20 +1,21 @@
 const mongoose = require("mongoose");
 
 const promptSchema = new mongoose.Schema({
-    user : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
-    prompttext : {
-        type : String,
-        required : true
+    promptText: {
+        type: String,
+        required: true
     },
-    Post : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "Blog"
-    },
+    post: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Blog",
+        required: true
+    }
+}, { timestamps: true });
 
-} , {timestamps : true});
-
-const Prompt = mongoose.model("Prompt" , promptSchema);
+const Prompt = mongoose.model("Prompt", promptSchema);
 module.exports = Prompt;

@@ -7,19 +7,16 @@ const keywordSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-
     slug: {
       type: String,
       unique: true,
     },
-
     posts: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Blog",
       },
     ],
-
     usageCount: {
       type: Number,
       default: 0,
@@ -29,5 +26,4 @@ const keywordSchema = new mongoose.Schema(
 );
 
 const Keyword = mongoose.model("Keyword", keywordSchema);
-
-export default Keyword;
+module.exports = Keyword;
