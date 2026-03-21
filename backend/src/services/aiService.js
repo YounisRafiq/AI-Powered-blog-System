@@ -1,38 +1,23 @@
-const { GoogleGenAI } = require("@google/genai");
+const Groq = require("groq-sdk");
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+const getResponseFromGroq = async (prompt) => {
+  try {
+    const groq = new Groq({
+      apiKey: process.env.GROK_API_KEY
+    });
 
-async function runGemini(title) {
+    const response = await groq.chat.completions.create({
+      messages: [
+        { role: "user", content: prompt || "write a blog on web development" }
+      ],
+      model: "llama-3.1-8b-instant",
+    });
 
-  const prompt =  `
-You are a professional SEO blog writer.
+    return response.choices[0].message.content;
 
-Write a high-quality blog post on: "${title}"
+  } catch (error) {
+    throw error;
+  }
+};
 
-Requirements:
-- Catchy introduction
-- Use headings (H1, H2, H3)
-- Add examples
-- Use simple English
-- Add conclusion
-- SEO optimized
-`;
-
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: [
-      {
-        parts: [
-          { text: prompt }
-        ]
-      }
-    ],
-  });
-
-  
-  console.log("Gemini says:", response.text);
-}
-
-module.exports = { runGemini };
+module.exports = { getResponseFromGroq };
