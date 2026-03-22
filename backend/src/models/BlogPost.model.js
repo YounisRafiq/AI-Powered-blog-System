@@ -25,11 +25,7 @@ const blogSchema = new mongoose.Schema({
             ref: "Keyword"
         }
     ],
-    status: {
-        type: String,
-        enum: ["InProgress", "Published", "Draft"],
-        default: "InProgress"
-    }
+  
 }, { timestamps: true });
 
 const Blog = mongoose.model("Blog", blogSchema);
