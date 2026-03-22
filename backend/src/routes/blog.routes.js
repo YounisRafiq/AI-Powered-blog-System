@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const blogController = require("../controllers/blog.controller");
+const authMiddleware = require("../middleware/auth.middleware");
 
-router.post("/generate" , blogController.generateResponse);
+router.post("/generate" , authMiddleware.authMiddleware , blogController.generateBlog);
+
 module.exports = router;
