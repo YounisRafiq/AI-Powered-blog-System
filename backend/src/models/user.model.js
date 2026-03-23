@@ -16,10 +16,6 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 5
   },
-  role: {
-    type: String,
-    default: "guest"
-  }
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

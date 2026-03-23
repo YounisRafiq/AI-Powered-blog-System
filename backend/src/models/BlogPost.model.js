@@ -14,17 +14,6 @@ const blogSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        required: true
-    },
-    keywords: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Keyword"
-        }
-    ],
   
 }, { timestamps: true });
 

@@ -3,60 +3,70 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const userRegister = async (req, res) => {
-  const { fullName, email, password, role } = req.body;
+  try {
+    const { fullName, email, password } = req.body;
+    console.log(req.body);
+    if (!fullName || !email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
 
-   const existingUser = await userModel.findOne({ email })
+    const nameRegex = /^[A-Za-z\s]{3,}$/;
+    if (!nameRegex.test(fullName)) {
+      return res.status(400).json({
+        message: "Invalid Full Name",
+      });
+    }
 
-   if(existingUser){
-    return res.status(401).json({
-      message : "User Already exist with this email"
-    })
-   }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        message: "Invalid Email",
+      });
+    }
 
-  if (fullName === "" || email === "" || password === "" || role === "") {
-    return res.status(401).json({
-      message: "All Fields are required",
-    });
-  }
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({
+        message: "User already exists",
+      });
+    }
 
-  const hashedPassword = await bcrypt.hash(password , 10);
-  const user = await userModel.create({
-    fullName,
-    password : hashedPassword,
-    email,
-    role
-  });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-
-  if(!user){
-    return res.status(404).json({
-        message : "User NOT Found"
-    })
-  }
-  
-    const token = jwt.sign(
-    { id : user._id },
-    process.env.JWT_SECRET_KEY
-   );
-
-   if(!token){
-    return res.status(404).json({
-      message : "Token NOT Found"
-    })
-   };
-
-   res.cookie("token" , token);
-  
-  res.status(200).json({
-    message : "User Registered SuccessFully",
-    user : {
+    const user = await userModel.create({
       fullName,
       email,
-      hashedPassword,
-      role
-    }
-  })
+      password: hashedPassword,
+    });
 
+    const token = jwt.sign(
+      { _id: user._id },
+      process.env.JWT_SECRET_KEY,
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+    });
+
+    res.status(201).json({
+      message: "User Registered Successfully",
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+      },
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      error: error.message,
+    });
+  }
 };
 
 const userLogin = async (req, res) => {
@@ -78,11 +88,12 @@ const userLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id},
+      { _id: user._id},
       process.env.JWT_SECRET_KEY,
     );
 
-    res.cookie("token" , token);
+    res.cookie("token" , token , {
+    });
 
     res.status(200).json({
       message: "Login Successful",
@@ -90,7 +101,6 @@ const userLogin = async (req, res) => {
         _id: user._id,
         fullName: user.fullName,
         email: user.email,
-        role: user.role
       }
     });
 
