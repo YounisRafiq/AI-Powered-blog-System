@@ -23,4 +23,21 @@ const generateBlog = async (req, res) => {
   }
 };
 
-module.exports = { generateBlog }
+const getAllBlogs = async () => {
+   try {
+    const blogs = await blogModel.find().populate("author" , "fullName" , "email");
+ 
+    res.status(200).json({
+     success : true,
+     totalBlogs : blogs.length,
+     blogs
+    });
+   } catch (error) {
+    res.status(500).json({
+      success : false,
+      message : error.message
+    })
+   }
+}
+
+module.exports = { generateBlog , getAllBlogs }
