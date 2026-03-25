@@ -15,6 +15,6 @@ app.use(cors({
 }));
 
 app.use("/api/v1/auth" , authRoutes);
-app.use("/api/v1/blog" , blogRoutes)
+app.use("/api/v1/blog" , blogRoutes);
 
 module.exports = app;

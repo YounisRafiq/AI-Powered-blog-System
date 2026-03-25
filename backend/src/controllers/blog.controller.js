@@ -1,4 +1,5 @@
 const blogModel = require("../models/BlogPost.model");
+const promptModel = require("../models/prompt.model");
 const { getResponseFromGroq } = require("../services/aiService");
 
 const generateBlog = async (req, res) => {
@@ -9,13 +10,22 @@ const generateBlog = async (req, res) => {
       return res.status(400).json({ message: "Prompt is required!" });
     }
 
+   const promptDoc = await promptModel.create({
+     prompt : prompt,
+     user : req.user._id
+   });
+
     const content = await getResponseFromGroq(prompt);
 
     const blog = await blogModel.create({
+      prompt : promptDoc._id,
       title: prompt,
       content: content,
       author: req.user._id,
     });
+
+    promptDoc.post = blog._id;
+    await promptDoc.save();
 
     res.status(201).json({ message: "Blog created", blog });
   } catch (error) {

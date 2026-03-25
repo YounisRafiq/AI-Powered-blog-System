@@ -6,14 +6,13 @@ const promptSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    promptText: {
+    prompt: {
         type: String,
         required: true
     },
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Blog",
-        required: true
     }
 }, { timestamps: true });
 
