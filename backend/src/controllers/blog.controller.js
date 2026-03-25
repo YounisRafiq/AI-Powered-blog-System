@@ -14,112 +14,119 @@ const generateBlog = async (req, res) => {
     const blog = await blogModel.create({
       title: prompt,
       content: content,
-      author: req.user._id
+      author: req.user._id,
     });
 
     res.status(201).json({ message: "Blog created", blog });
   } catch (error) {
-    res.status(500).json({ message: "Error generating blog", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error generating blog", error: error.message });
   }
 };
 
-const getAllBlogs = async (req , res) => {
-   try {
-    const blogs = await blogModel.find();
+const getAllBlogs = async (req, res) => {
+  try {
+    const blogs = await blogModel.find().populate("author", "fullName email");
     res.status(200).json({
-     success : true,
-     totalBlogs : blogs.length,
-     blogs
+      success: true,
+      totalBlogs: blogs.length,
+      blogs,
     });
-   } catch (error) {
+  } catch (error) {
     res.status(500).json({
-      success : false,
-      message : error.message
-    })
-   }
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
-const getSingleBlog = async (req , res) => {
-   const singleBlog = await blogModel.findById(req.params.id);
+const getSingleBlog = async (req, res) => {
+  const singleBlog = await blogModel.findById(req.params.id);
 
-   try {
-    if(!singleBlog){
-     return res.status(404).json({
-       message : "Error while fetching single blog"
-     })
-    };
- 
+  try {
+    if (!singleBlog) {
+      return res.status(404).json({
+        message: "Error while fetching single blog",
+      });
+    }
+
     res.status(200).json({
-     message : "Blog Fetched SuccessFully",
-     singleBlog
-    })
-   } catch (error) {
+      message: "Blog Fetched SuccessFully",
+      singleBlog,
+    });
+  } catch (error) {
     res.status(500).json({
-      error : error.message
-    })
-   }
-}
+      error: error.message,
+    });
+  }
+};
 
-const deleteBlog = async (req , res) => {
+const deleteBlog = async (req, res) => {
   const blog = await blogModel.findById(req.params.id);
 
   try {
-    if(!blog){
+    if (!blog) {
       return res.status(401).json({
-        success : false,
-        message : "Blog NOT found"
-      })
-    };
+        success: false,
+        message: "Blog NOT found",
+      });
+    }
 
-  if(blog.author.toString() !== req.user.id){
-    return res.status(403).json({ message : "NOT Authorized" })
-  };
+    if (blog.author.toString() !== req.user.id) {
+      return res.status(403).json({ message: "NOT Authorized" });
+    }
 
-  const deletedBlog = await blogModel.deleteOne();
+    const deletedBlog = await blogModel.deleteOne();
 
-  res.status(201).json({
-    message : "Blog Deleted SuccessFully",
-    deletedBlog
-  })
-
+    res.status(201).json({
+      message: "Blog Deleted SuccessFully",
+      deletedBlog,
+    });
   } catch (error) {
     return res.status(500).json({
-      message : "Error happen while deleting the blog",
-      error : error.message
-    })
+      message: "Error happen while deleting the blog",
+      error: error.message,
+    });
   }
 };
 
-const updateBlog = async (req ,res) => {
-   const { title , content } = req.body;
+const updateBlog = async (req, res) => {
+  const { title, content } = req.body;
 
-   const blog = await blogModel.findById(req.params.id);
+  const blog = await blogModel.findById(req.params.id);
 
-   try {
-    if(!blog){
-     return res.status(401).json({
-       message : "Blog NOT found"
-     })
-    };
- 
-    if(blog.author.toString() !== req.user.id){
-     return res.status(403).json({ message : "NOT Authorized" })
-    };
- 
+  try {
+    if (!blog) {
+      return res.status(401).json({
+        message: "Blog NOT found",
+      });
+    }
+
+    if (blog.author.toString() !== req.user.id) {
+      return res.status(403).json({ message: "NOT Authorized" });
+    }
+
     blog.title = title || blog.title;
     blog.content = content || blog.content;
- 
+
     await blog.save();
- 
+
     res.status(201).json({
-     message : "Blog Updated SuccessFully",
-     data : blog
+      message: "Blog Updated SuccessFully",
+      data: blog,
     });
-   } catch (error) {
+  } catch (error) {
     res.status(500).json({
-      message : "Error happen while updating the blog",
-      error : error.message
-    })
-   }
-}
-module.exports = { generateBlog , getAllBlogs , getSingleBlog , deleteBlog , updateBlog }
+      message: "Error happen while updating the blog",
+      error: error.message,
+    });
+  }
+};
+module.exports = {
+  generateBlog,
+  getAllBlogs,
+  getSingleBlog,
+  deleteBlog,
+  updateBlog,
+};
