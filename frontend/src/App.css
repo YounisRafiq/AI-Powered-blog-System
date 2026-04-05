@@ -14,17 +14,14 @@ html , body{
   transition: 0.3s ease;
 }
 
-/* Sidebar open */
 .layout.open {
   margin-left: 260px;
 }
 
-/* Sidebar closed */
 .layout.closed {
   margin-left: 70px;
 }
 
-/* Main area */
 .main-area {
   transition: 0.3s ease;
 }
