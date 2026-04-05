@@ -4,12 +4,10 @@
 }
 .navbar-logo{
     display: flex;
-    justify-content: space-between;
-    padding: 0 80px;
 }
 .navbar-logo img{
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     cursor: pointer;
 }
@@ -22,15 +20,11 @@
     transition: all 0.5s ease-in-out;
 }
 .navbar-logo h2{
-    font-size: 24px;
+    font-size: 27px;
     color: whitesmoke;
-    padding-top: 25px;
+    padding: 13px 20px;
+    margin-right: 10px !important;
     font-weight: 900;
-}
-.navbar-logo h2:hover{
-    cursor: pointer;
-    transform: rotate(360deg);
-    transition: all 0.7s ease-in-out;
 }
 
 @media screen and (max-width: 768px){
@@ -43,6 +37,6 @@
     }
     .navbar-logo h2{
         font-size: 18px;
-        padding-top: 20px;
+        padding-top: 17px;
     }
 }

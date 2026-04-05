@@ -1,4 +1,38 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: #111;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: 0.3s;
+}
+.sidebar-logo {
+  display: flex;
+  justify-content: space-between;
+}
+.sidebar-logo img{
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  cursor: pointer;
+}
 
-
-
-
+.sidebar-logo i{
+  color: whitesmoke;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px 20px;
+}
+.sidebar-logo i:hover{
+  background: #212121;
+  border-radius: 50%;
+}
+.sidebar-closed {
+  width: 70px;
+}
