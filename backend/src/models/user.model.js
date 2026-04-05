@@ -16,6 +16,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 5
   },
+
+  image : {
+    type : String,
+    requried : true
+  }
+
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

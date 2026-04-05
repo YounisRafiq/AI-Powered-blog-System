@@ -1,11 +1,13 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const storageService = require("../services/storageService");
+
 
 const userRegister = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
-    console.log(req.body);
+
     if (!fullName || !email || !password) {
       return res.status(400).json({
         message: "All fields are required",
@@ -26,6 +28,14 @@ const userRegister = async (req, res) => {
       });
     }
 
+   if(password.length < 5){
+    return res.status(400).json({
+        message : "Password must be at least 5 characters long"
+    })
+   } 
+
+   const imageUrl = await storageService.uploadImageToCloudinary(req.file?.path);
+
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.status(409).json({
@@ -39,6 +49,7 @@ const userRegister = async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
+      imageUrl: imageUrl || null,
     });
 
     const token = jwt.sign(
@@ -50,6 +61,7 @@ const userRegister = async (req, res) => {
       httpOnly: true,
       secure: false,
       sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.status(201).json({
@@ -93,6 +105,10 @@ const userLogin = async (req, res) => {
     );
 
     res.cookie("token" , token , {
+      secure : false,
+      maxAge : 7 * 24 * 60 * 60 * 1000,
+      httpOnly : true,
+      sameSite : "strict"
     });
 
     res.status(200).json({
@@ -113,6 +129,13 @@ const userLogin = async (req, res) => {
 };
 
 const userLogout = async (req ,res) => {
+ 
+  const token = req.cookies.token;
+  if(!token){
+    return res.status(401).json({
+      message : "Please Login First",
+    })
+  }
 
   res.clearCookie("token");
   res.status(200).json({

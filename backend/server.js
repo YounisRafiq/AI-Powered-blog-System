@@ -1,5 +1,7 @@
+require('dotenv').config();
 const connectToMongo = require('./src/db/db')
 const app = require('./src/app');
+
 connectToMongo();
 
 app.listen(`${process.env.PORT}` , () => {

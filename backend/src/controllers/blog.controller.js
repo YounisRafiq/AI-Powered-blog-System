@@ -1,12 +1,11 @@
 const blogModel = require("../models/BlogPost.model");
 const promptModel = require("../models/prompt.model");
 const keywordModel = require("../models/keyword.model");
-const categoryModel = require("../models/category.model");
 const { getResponseFromGroq } = require("../services/aiService");
 
 const generateBlog = async (req, res) => {
   try {
-    const { prompt , categories } = req.body;
+    const { prompt  } = req.body;
 
     if (!prompt || prompt.trim() === "") {
       return res.status(400).json({ message: "Prompt is required!" });
@@ -156,6 +155,7 @@ const generateBlog = async (req, res) => {
         "don",
         "should",
         "now",
+        "including"
       ];
       const filtered = words.filter(
         (word) => !stopWords.includes(word) && word.length > 2,
@@ -193,23 +193,10 @@ const generateBlog = async (req, res) => {
     blog.keywords = keywordsIDs;
    await blog.save();
 
-     const categoryIDs = [];
-    if (categories && Array.isArray(categories)) {
-      for (let catName of categories) {
-        let category = await categoryModel.findOne({ name: catName });
-        if (!category) {
-          category = await categoryModel.create({ name: catName });
-        }
-        categoryIDs.push(category._id);
-      }
-    }
-
-    blog.categories = categoryIDs;
-    await blog.save();
 
     const populatedBlog = await blogModel
       .findById(blog._id)
-      .populate("keywords", "name slug").populate("categories", "name description");
+      .populate("keywords", "name");
 
     promptDoc.post = blog._id;
     await promptDoc.save();
@@ -320,10 +307,35 @@ const updateBlog = async (req, res) => {
     });
   }
 };
+
+const blogProfile = async (req, res) => {
+  try {
+    const blog = await blogModel.findById(req.params.id).populate("author", "fullName email");
+
+   if(!blog){
+    return res.status(404).json({
+      message: "Blog not found",
+    });
+   }
+
+    res.status(200).json({
+      message: "Blog Profile Fetched SuccessFully",
+      blog,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error while fetching blog profile",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   generateBlog,
   getAllBlogs,
   getSingleBlog,
   deleteBlog,
   updateBlog,
+  blogProfile,
 };

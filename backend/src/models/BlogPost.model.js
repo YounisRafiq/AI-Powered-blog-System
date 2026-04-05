@@ -20,12 +20,6 @@ const blogSchema = new mongoose.Schema({
     ref: "Keyword"
   },
 ],
-categories: [
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category"
-  }
-],
   
 }, { timestamps: true });
 
