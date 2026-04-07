@@ -27,16 +27,11 @@
     font-weight: 900;
 }
 
-@media screen and (max-width: 768px){
-    .navbar-logo{
-        padding: 0 20px;
-    }
-    .navbar-logo img{
-        width: 60px;
-        height: 60px;
-    }
+@media screen and (max-width: 300px){
+
     .navbar-logo h2{
-        font-size: 18px;
-        padding-top: 17px;
+        font-size: 16px;
+        margin-top: 15px;
+        padding: 0;    
     }
 }

@@ -1,14 +1,15 @@
 import React from "react";
 import "./Sidebar.css";
 import logo from "../assets/image.png";
+import Image from '../assets/my-image.jpg';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
-    <div className={isOpen ? "sidebar" : "sidebar sidebar-closed"}>
+    <div style={{overflow : !isOpen ? "hidden" : "scroll"}} className={isOpen ? "sidebar" : "sidebar sidebar-closed"}>
       <div className="sidebar-logo">
-        <img src={logo} onClick={() => setIsOpen(true)} />
+        <img src={logo} onClick={() => setIsOpen(true)} title="open sidebar" />
 
-        <i
+        <i title="close sidebar"
           className="fa-solid fa-xmark"
           style={{ opacity: isOpen ? 1 : 0 }}
           onClick={() => setIsOpen(false)}
@@ -16,7 +17,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       </div>
 
      <div className="new-chat">
-      <i  class="fa-regular fa-pen-to-square"></i>
+      <i title="new chat" className="fa-regular fa-pen-to-square"></i>
 
       {  isOpen && <span>New chat</span> }
      </div>
@@ -25,7 +26,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       { isOpen && (
         <div className="your-chats">
       <span>Your chats</span>
-      <i class="fa-solid fa-angle-down"></i>
+      <i className="fa-solid fa-angle-down"></i>
      </div>
       ) }
      
@@ -57,6 +58,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <span>Chat 1</span>
       </div>
       )}
+
+      <div className="profile" style={{width :!isOpen ? "50px" : "250px"}}>
+        <img src={Image} alt="This is profile image" />
+       {isOpen && <h3>Younis Ali</h3>}
+      </div>
 
     </div>
   );

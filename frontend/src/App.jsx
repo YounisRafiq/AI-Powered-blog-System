@@ -5,7 +5,7 @@ import "./App.css";
 
 function App() {
   
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className={isOpen ? "layout open" : "layout closed"}>
