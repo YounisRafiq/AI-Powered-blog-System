@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import "./App.css";
+import Content from "./components/Content";
 
 function App() {
   
@@ -13,9 +14,10 @@ function App() {
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
       
       <div className="main-area">
-        <Navbar />
+        <Navbar isOpen={isOpen} />
       </div>
 
+      <Content isOpen={isOpen}/>
     </div>
   );
 }

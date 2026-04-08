@@ -27,6 +27,11 @@
     font-weight: 900;
 }
 
+@media (max-width : 768px){
+   .logo-hide{
+    display: none;
+   }
+}
 @media screen and (max-width: 300px){
 
     .navbar-logo h2{
