@@ -6,16 +6,16 @@ const storageService = require("../services/storageService");
 
 const userRegister = async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!fullName || !email || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({
         message: "All fields are required",
       });
     }
 
     const nameRegex = /^[A-Za-z\s]{3,}$/;
-    if (!nameRegex.test(fullName)) {
+    if (!nameRegex.test(name)) {
       return res.status(400).json({
         message: "Invalid Full Name",
       });
@@ -46,7 +46,7 @@ const userRegister = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await userModel.create({
-      fullName,
+      name,
       email,
       password: hashedPassword,
       imageUrl: imageUrl || null,
@@ -68,7 +68,7 @@ const userRegister = async (req, res) => {
       message: "User Registered Successfully",
       user: {
         _id: user._id,
-        fullName: user.fullName,
+        name: user.name,
         email: user.email,
       },
     });
@@ -82,51 +82,58 @@ const userRegister = async (req, res) => {
 };
 
 const userLogin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
 
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      return res.status(404).json({
-        message: "Email NOT Found! Please Sign Up first"
-      });
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        message: "Email or Password is Invalid"
-      });
-    }
-
-    const token = jwt.sign(
-      { _id: user._id},
-      process.env.JWT_SECRET_KEY,
-    );
-
-    res.cookie("token" , token , {
-      secure : false,
-      maxAge : 7 * 24 * 60 * 60 * 1000,
-      httpOnly : true,
-      sameSite : "strict"
-    });
-
-    res.status(200).json({
-      message: "Login Successful",
-      user: {
-        _id: user._id,
-        fullName: user.fullName,
-        email: user.email,
+    try {
+      const { email, password } = req.body;
+  
+      console.log(email , password);
+  
+      const user = await userModel.findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({
+          message: "Something Went Wrong!"
+        });
       }
-    });
+  
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+  
+      if (!isPasswordValid) {
+        return res.status(401).json({
+          message: "Email or Password is Invalid"
+        });
+      }
+  
+      const token = jwt.sign(
+        { _id: user._id},
+        process.env.JWT_SECRET_KEY,
+      );
+  
+      res.cookie("token" , token , {
+        maxAge : 7 * 24 * 60 * 60 * 1000,
+        httpOnly : true,
+        sameSite : "strict"
+      });
+  
+      res.status(200).json({
+        message: "Login Successful",
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+        }
+      });
+    } catch (error) {
+       res.status(500).json({
+        message : "Server Error",
+        error : error.message
+       })
+    }
 
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      error: error.message
-    });
+
+
   }
-};
+
 
 const userLogout = async (req ,res) => {
  

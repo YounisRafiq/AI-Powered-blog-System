@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
       <div className="profile" style={{ width: !isOpen ? "50px" : "250px" }}>
         <img src={Image} alt="This is profile image" />
-        {isOpen && <h3>Younis Ali</h3>}
+        {isOpen && <h3 className="profileName">Younis Ali</h3>}
       </div>
     </div>
   );

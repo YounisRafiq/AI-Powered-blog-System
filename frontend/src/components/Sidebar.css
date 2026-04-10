@@ -88,13 +88,13 @@
 }
 
 .chat-list span{
-    padding: 7px 10px;
+    padding: 10px 10px;
     cursor: pointer;
     border-radius: 10px;
     transition: 0.2s;
 }
 .chat-list span:hover{
-  background: #888888;
+  background: #212121;
   transition: 0.2s;
 }
 .profile {
@@ -133,6 +133,20 @@
   }
   .sidebar.sidebar-closed{
     width: 50px;
+  }
+  .profileName{
+    font-size: 12px;
+  }
+  .profile{
+    display: flex !important;
+    justify-content: left !important;
+    gap: 0;
+    align-items: center;
+  }
+  .profile img{
+    width: 30px !important;
+    height: 30px !important;
+    margin-bottom: 6px;
   }
   .new-chat{
     display: flex;

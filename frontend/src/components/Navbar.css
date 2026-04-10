@@ -22,14 +22,27 @@
 .navbar-logo h2{
     font-size: 27px;
     color: whitesmoke;
-    padding: 13px 20px;
+    /* padding: 13px 20px; */
     margin-right: 10px !important;
-    font-weight: 900;
+    font-weight: 700;
+}
+.navbar-logo h2{
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+.navbar-logo h2:hover{
+    background: #212121;
 }
 
 @media (max-width : 768px){
    .logo-hide{
     display: none;
+   }
+
+   .navbar-logo h2{
+    font-size: 20px;
+    margin-top: 5px;
    }
 }
 @media screen and (max-width: 300px){

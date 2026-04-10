@@ -6,7 +6,7 @@
   align-items: center;
   flex-direction: column;
   padding: 40px 20px;
-  gap: 20px;
+  gap: 25px;
   text-align: center;
 }
 
@@ -27,13 +27,14 @@
   border: none;
   outline: none;
   background: #303030;
-  font-size: 15px;
+  font-size: 16px;
   border-radius: 50px;
   color: whitesmoke;
 }
 
 .content input::placeholder {
   color: #afafaf;
+  font-size: 16.5px;
 }
 
 .inputs i {
@@ -82,6 +83,10 @@
     font-size: 22px;
   }
 
+  .inputs input::placeholder{
+    font-size: 13px;
+  }
+
   .content input {
     padding: 15px 50px 15px 20px;
     font-size: 14px;
@@ -96,6 +101,10 @@
   .content {
     padding: 20px 10px;
     gap: 10px;
+  }
+
+  .inputs input::placeholder{
+    font-size: 10px;
   }
 
   .content h2 {
