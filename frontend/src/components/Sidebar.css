@@ -29,6 +29,14 @@
 .sidebar::-webkit-scrollbar-track {
   margin-top: 150px;
 }
+.profile i{
+  font-size: 25px;
+  cursor: pointer;
+  color: whitesmoke;
+}
+.profileName{
+  margin-top: 7px;
+}
 .sidebar-logo {
   display: flex;
   justify-content: space-between;

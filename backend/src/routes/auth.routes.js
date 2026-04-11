@@ -7,4 +7,5 @@ router.post("/user/register", upload.single("image"), authController.userRegiste
 router.post("/user/login" , authController.userLogin);
 router.get("/user/logout" , authController.userLogout);
 
+
 module.exports = router;

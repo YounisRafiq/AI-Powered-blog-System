@@ -85,11 +85,11 @@ const handleSubmit = async (e) => {
             />
           </div>
           <button type="submit" disabled={loading} className="auth-btn primary">
-            {loading ? 'Signing In...' : 'Log In'}
+            {loading ? 'Signing In...' : 'Login'}
           </button>
         </form>
         <div className="auth-footer">
-          <p>Don't have an account? <Link to="/user/register">Sign up</Link></p>
+          <p>Don't have an account? <Link to="/user/register">SignUp</Link></p>
         </div>
       </div>
     </div>

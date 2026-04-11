@@ -8,14 +8,19 @@ cloudniary.config({
 
 const uploadImageToCloudinary = async (image) => {
   try {
+
+    console.log(image);
+
     if (!image) return null;
     const response = await cloudniary.uploader.upload(image, {
       resource_type: "image",
     });
 
     fs.unlinkSync(image);
-
-    return response.secure_url;
+     
+    console.log(response);
+    
+    return response;
   } catch (error) {
     console.error("Error uploading image to Cloudinary:", error);
     fs.unlinkSync(image);

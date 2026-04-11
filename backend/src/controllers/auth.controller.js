@@ -34,7 +34,9 @@ const userRegister = async (req, res) => {
     })
    } 
 
-   const imageUrl = await storageService.uploadImageToCloudinary(req.file?.path);
+   const image = await storageService.uploadImageToCloudinary(req.file?.path);
+
+   console.log("Cloudinary Response" , image);
 
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
@@ -49,7 +51,7 @@ const userRegister = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      imageUrl: imageUrl || null,
+      image: image?.secure_url || null,
     });
 
     const token = jwt.sign(
@@ -65,13 +67,14 @@ const userRegister = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "User Registered Successfully",
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-    });
+  message: "User Registered Successfully",
+  user: {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    image: user.image
+  },
+});
 
   } catch (error) {
     res.status(500).json({

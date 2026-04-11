@@ -1,12 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import logo from "../assets/image.png";
-import Image from "../assets/my-image.jpg";
-
+import axios from "axios";
+import { Link } from "react-router-dom"
 const Sidebar = ({ isOpen, setIsOpen }) => {
 
-  const [showChat, setShowChat] = useState(true);
 
+  const [showChat, setShowChat] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/user/me", {
+          withCredentials: true,
+        });
+
+        setUser(res.data.user);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div
@@ -31,7 +48,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       </div>
 
       {isOpen && (
-        <div  className="your-chats">
+        <div className="your-chats">
           <span onClick={() => setShowChat(!showChat)}>
             Your chats{" "}
             <i
@@ -73,8 +90,17 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       )}
 
       <div className="profile" style={{ width: !isOpen ? "50px" : "250px" }}>
-        <img src={Image} alt="This is profile image" />
-        {isOpen && <h3 className="profileName">Younis Ali</h3>}
+        {user?.image ? (
+          <img src={user.image} alt="profile" />
+        ) : (
+          <Link to="/user/login">
+            <i className="fa-regular fa-circle-user"></i>
+          </Link>
+        )}
+         <div className="name">
+                  {isOpen && <h3 className="profileName">{user?.name}</h3>}
+
+         </div>
       </div>
     </div>
   );

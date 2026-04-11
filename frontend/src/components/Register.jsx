@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Register.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -131,7 +132,7 @@ const Register = () => {
             )}
           </div>
           <button type="submit" disabled={loading} className="auth-btn primary">
-            {loading ? "Creating Account..." : "Sign Up"}
+            {loading ? "Creating Account..." : "SignUp"}
           </button>
         </form>
         <div className="auth-footer">
