@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import logo from "../assets/image.png";
 import axios from "axios";
-import { Link } from "react-router-dom"
-const Sidebar = ({ isOpen, setIsOpen }) => {
+import { Link, useNavigate } from "react-router-dom";
 
+const Sidebar = ({ isOpen, setIsOpen }) => {
+  const naviage = useNavigate();
 
   const [showChat, setShowChat] = useState(true);
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,13 +19,33 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         });
 
         setUser(res.data.user);
+        setIsLoggedIn(true);
       } catch (error) {
+        setIsLoggedIn(false);
         console.log(error.message);
       }
     };
 
     fetchData();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:3000/api/v1/auth/user/logout", {
+        withCredentials: true,
+      });
+
+      const result = confirm("Are you sure you want to loggedout?");
+      if (result) {
+        setIsLoggedIn(false);
+        setUser(null);
+        naviage("/");
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -60,47 +82,59 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         </div>
       )}
 
-      {isOpen && showChat && (
-        <div className="chat-list">
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-          <span>Chat 1</span>
-        </div>
-      )}
+      {
+  isOpen
+    && showChat
+      && isLoggedIn
+        && (
+          <div className="chat-list">
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+            <span>Chat 1</span>
+          </div>
+        )
+}
 
       <div className="profile" style={{ width: !isOpen ? "50px" : "250px" }}>
         {user?.image ? (
-          <img src={user.image} alt="profile" />
+          <img src={user.image} title={user.name} alt="profile" />
         ) : (
           <Link to="/user/login">
             <i className="fa-regular fa-circle-user"></i>
           </Link>
         )}
-         <div className="name">
-                  {isOpen && <h3 className="profileName">{user?.name}</h3>}
+        <div className="name">
+          {isOpen && (
+            <h3 className="profileName">
+              {isLoggedIn ? user?.name : <Link style={{color : "whitesmoke", fontSize : "17px" ,  marginBottom : "5px" , display : "inline-block"}} to={"/user/login"}>Login</Link>}
+            </h3>
+          )}
 
-         </div>
+          {isLoggedIn && isOpen && (
+            <span
+              className="logout"
+              onClick={handleLogout}
+              style={{ cursor: "pointer" }}
+            >
+              Logout
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

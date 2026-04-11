@@ -35,7 +35,8 @@
   color: whitesmoke;
 }
 .profileName{
-  margin-top: 7px;
+  /* margin-top: 7px; */
+  /* margin-bottom: 4px; */
 }
 .sidebar-logo {
   display: flex;
@@ -59,6 +60,11 @@
   cursor: pointer;
   margin: 10px 20px;
 }
+
+.para{
+  text-align: center;
+  margin-top: 50px;
+}
 .sidebar-logo i:hover{
   background: #212121;
   border-radius: 50%;
@@ -73,6 +79,13 @@
   padding: 15px 24px;
   border-radius: 20px;
   gap: 8px;
+}
+.new-chat i{
+  font-size: 19px;
+}
+.logout{
+  color: rgb(182, 37, 37);
+  text-decoration: underline;
 }
 .new-chat:hover{
   background: #212121;
@@ -125,7 +138,7 @@
   height: 33px;
   cursor: pointer;
   border-radius: 50%;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .sidebar-closed .profile {
   justify-content: center;
@@ -134,6 +147,48 @@
   background: none;
 }
 
+
+@media screen and (min-width : 301px) and (max-width : 768px){
+  .name{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .name .profileName{
+    font-size: 14px;
+  }
+  .name .logout{
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width : 1025px){
+  .name{
+    gap : 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .name .profileName{
+    font-size: 14px;
+  }
+  .name .logout{
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width : 769px) and (max-width : 1024px){
+  .name{
+    gap : 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .name .profileName{
+    font-size: 14px;
+  }
+  .name .logout{
+    font-size: 13px;
+  }
+}
 @media screen and (max-width : 300px){
   .sidebar-logo img{
     width: 52px;
@@ -141,6 +196,16 @@
   }
   .sidebar.sidebar-closed{
     width: 50px;
+  }
+
+  .logout{
+    font-size: 12px;
+  }
+  .name{
+   gap: 0px;
+   display: flex;
+   flex-direction: column;
+
   }
   .profileName{
     font-size: 12px;
