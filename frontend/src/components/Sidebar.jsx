@@ -30,10 +30,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     fetchData();
   }, []);
 
+
  const handleLogout = async () => {
   try {
     const result = await Swal.fire({
-      title: "Logout?",
+      title: "Logout!",
       text: "Are you sure you want to logout?",
       icon: "warning",
       showCancelButton: true,
