@@ -14,7 +14,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/user/me", {
+        const res = await axios.get("http://localhost:3000/api/user/profile", {
           withCredentials: true,
         });
 
@@ -112,7 +112,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
       <div className="profile" style={{ width: !isOpen ? "50px" : "250px" }}>
         {user?.image ? (
-          <img src={user.image} title={user.name} alt="profile" />
+          <Link to={"/profile"}><img src={user.image} title={user.name} alt="profile" /></Link>
         ) : (
           <Link to="/user/login">
             <i className="fa-regular fa-circle-user"></i>
@@ -121,7 +121,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <div className="name">
           {isOpen && (
             <h3 className="profileName">
-              {isLoggedIn ? user?.name : <Link style={{color : "whitesmoke", fontSize : "17px" ,  marginBottom : "5px" , display : "inline-block"}} to={"/user/login"}>Login</Link>}
+              {isLoggedIn ? <Link className="user-name" to={"/profile"}>{user?.name}</Link> : <Link style={{color : "whitesmoke", fontSize : "17px" ,  marginBottom : "5px" , display : "inline-block"}} to={"/user/login"}>Login</Link>}
             </h3>
           )}
 

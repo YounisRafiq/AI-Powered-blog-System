@@ -82,6 +82,7 @@
 }
 .new-chat i{
   font-size: 19px;
+  margin-right: 7px;
 }
 .logout{
   color: rgb(182, 37, 37);
@@ -117,6 +118,11 @@
 .chat-list span:hover{
   background: #212121;
   transition: 0.2s;
+}
+
+.user-name{
+  color: whitesmoke;
+  text-decoration: none;
 }
 .profile {
   position: absolute;
@@ -196,6 +202,11 @@
   }
   .sidebar.sidebar-closed{
     width: 50px;
+  }
+
+  .new-chat i{
+    font-size: 15px ;
+    margin-left: 6px;
   }
 
   .logout{

@@ -6,6 +6,7 @@ import Content from "./components/Content";
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Profile from "./components/Profile";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +30,7 @@ function App() {
 
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
+        <Route path="/profile" element={<Profile/>}></Route>
       </Routes>
     </Router>
   );
