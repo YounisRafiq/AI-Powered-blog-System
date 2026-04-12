@@ -32,49 +32,48 @@ const updateProfile = async (req, res) => {
   try {
     const { name, password } = req.body;
 
+    if (!name || name.trim() === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Name cannot be empty",
+      });
+    }
+
     const userId = req.user.id;
-    console.log("User Ki ID:", userId);
-
-    console.log("Image" , req.file);
     const user = await userModel.findById(userId);
-
-    console.log("User:", user);
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User Not Found"
+        message: "User Not Found",
       });
     }
 
-    if (name) {
-      user.name = name;
-    }
+    user.name = name;
 
-    if (password) {
+    if (password && password.trim() !== "") {
       const bcrypt = require("bcrypt");
       user.password = await bcrypt.hash(password, 10);
     }
 
     if (req.file) {
-  const result = await storageService.uploadImageToCloudinary(req.file.path);
-  user.image = result.secure_url;
-}
+      const result = await storageService.uploadImageToCloudinary(req.file.path);
+      user.image = result.secure_url;
+    }
 
     await user.save();
 
     res.status(200).json({
       success: true,
       message: "Profile updated successfully",
-      user
+      user,
     });
 
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: "Server Error",
-      error: error.message
+      error: error.message,
     });
   }
 };

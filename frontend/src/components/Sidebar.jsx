@@ -3,9 +3,10 @@ import "./Sidebar.css";
 import logo from "../assets/image.png";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
-  const naviage = useNavigate();
+  const navigate = useNavigate();
 
   const [showChat, setShowChat] = useState(true);
   const [user, setUser] = useState(null);
@@ -29,23 +30,47 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     fetchData();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await axios.get("http://localhost:3000/api/v1/auth/user/logout", {
-        withCredentials: true,
+ const handleLogout = async () => {
+  try {
+    const result = await Swal.fire({
+      title: "Logout?",
+      text: "Are you sure you want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Logout",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      await axios.get(
+        "http://localhost:3000/api/v1/auth/user/logout",
+        { withCredentials: true }
+      );
+
+      setIsLoggedIn(false);
+      setUser(null);
+
+      await Swal.fire({
+        title: "Logged Out!",
+        text: "You have been logged out successfully.",
+        icon: "success",
+        timer: 3000,
+        showConfirmButton: false,
       });
 
-      const result = confirm("Are you sure you want to loggedout?");
-      if (result) {
-        setIsLoggedIn(false);
-        setUser(null);
-        naviage("/");
-      } else {
-      }
-    } catch (error) {
-      console.log(error);
+      navigate("/");
     }
-  };
+
+  } catch (error) {
+    console.log(error);
+
+    Swal.fire({
+      title: "Error!",
+      text: "Logout failed",
+      icon: "error",
+    });
+  }
+};
 
   return (
     <div

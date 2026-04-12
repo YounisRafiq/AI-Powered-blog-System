@@ -3,6 +3,7 @@ import "./Profile.css";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import GIF from "../assets/loading.gif";
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const [editMode, setEditMode] = useState(false);
@@ -68,13 +69,30 @@ const Profile = () => {
         withCredentials: true,
       });
 
-      alert("Profile Updated Successfully");
+      setUpdating(false);
       setEditMode(false);
+
+      Swal.fire({
+        title: "Success",
+        text: "Profile Updated Successfully",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       navigate("/");
     } catch (error) {
       console.log(error);
-    } finally {
-      setUpdating(false); // 🔥 stop loading
+
+      setUpdating(false);
+
+      const message =
+        error?.response?.data?.message || "Something went wrong !";
+
+      Swal.fire({
+        title: "Error!",
+        text: message,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -94,17 +112,15 @@ const Profile = () => {
     );
   }
 
-  {
-    updating && (
-      <div className="loading">
-        <img src={GIF} alt="Loading..." />
-      </div>
-    );
-  }
-
   return (
     <>
-      <div className="profile-container">
+      {updating && (
+        <div className="loading">
+          <img src={GIF} alt="Loading..." />
+        </div>
+      )}
+
+      <div className={`profile-container ${updating ? "dim" : ""}`}>
         <div className="profile-card">
           <div className="profile-image-container">
             {imagePreview ? (
@@ -153,7 +169,15 @@ const Profile = () => {
             </div>
 
             {editMode && (
-              <button style={{textDecoration : updating ? "no-drop" : ""}} type="submit" className="update-btn" disabled={updating}>
+              <button
+                style={{
+                  cursor: updating ? "no-drop" : "pointer",
+                  opacity: updating ? 0.6 : 1,
+                }}
+                type="submit"
+                className="update-btn"
+                disabled={updating}
+              >
                 {updating ? "Updating..." : "Update Profile"}
               </button>
             )}
