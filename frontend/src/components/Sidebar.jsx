@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef } from "react";
 import "./Sidebar.css";
 import logo from "../assets/image.png";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import gsap from "gsap";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
+  const imgRef = useRef([]);
+  const hasAnimated = useRef(false);
   const navigate = useNavigate();
 
   const [showChat, setShowChat] = useState(true);
@@ -73,12 +76,36 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   }
 };
 
+useEffect(() => {
+    
+  if(hasAnimated.current) return;
+
+  hasAnimated.current = true;
+
+    gsap.fromTo(
+      imgRef.current,
+      {
+        x: -50,
+        opacity: 0,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.1, 
+      }
+    );
+     
+
+}, []);
+
   return (
     <div
       style={{ overflow: !isOpen ? "hidden" : "scroll" }}
       className={isOpen ? "sidebar" : "sidebar sidebar-closed"}
     >
-      <div className="sidebar-logo">
+      <div ref={(el) => (imgRef.current[0] = el)} className="animate-item sidebar-logo">
         <img src={logo} onClick={() => setIsOpen(true)} title="open sidebar" />
 
         <i
@@ -89,14 +116,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         ></i>
       </div>
 
-      <div className="new-chat">
+      <div ref={(el) => (imgRef.current[1] = el)} className="animate-item new-chat">
         <i title="new chat" className="fa-regular fa-pen-to-square"></i>
 
         {isOpen && <span>New chat</span>}
       </div>
 
       {isOpen && (
-        <div className="your-chats">
+        <div className=" your-chats">
           <span onClick={() => setShowChat(!showChat)}>
             Your chats{" "}
             <i
@@ -136,7 +163,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         )
 }
 
-      <div className="profile" style={{ width: !isOpen ? "50px" : "250px" }}>
+      <div ref={(el) => (imgRef.current[2] = el)} className=" animate-item profile" style={{ width: !isOpen ? "50px" : "250px" }}>
         {user?.image ? (
           <Link to={"/profile"}><img src={user.image} title={user.name} alt="profile" /></Link>
         ) : (
