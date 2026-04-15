@@ -84,7 +84,7 @@ const Profile = () => {
 
       setUpdating(false);
 
-      const message =
+      const message = 
         error?.response?.data?.message || "Something went wrong !";
 
       Swal.fire({

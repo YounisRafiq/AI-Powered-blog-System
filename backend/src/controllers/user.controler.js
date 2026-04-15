@@ -1,31 +1,30 @@
 const userModel = require("../models/user.model");
 const storageService = require("../services/storageService");
 
-const getUserProfile = async (req , res) => {
-   try {
+const getUserProfile = async (req, res) => {
+  try {
     const user = await userModel.findById(req.user._id);
-   if(!user){
-    res.status(404).json({
-        success : false,
-        message : "User NOT Found"
-    })
-   };
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User NOT Found",
+      });
+    }
 
-   res.status(200).json({
-     user : {
-        _id : user._id,
-        name : user.name,
-        email : user.email,
-        image : user.image
-     }
-   })
-
-   } catch (error) {
-     res.status(500).json({
-        success : false,
-        message : "Internal Error Occur"
-     })
-   }
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Error Occur",
+    });
+  }
 };
 
 const updateProfile = async (req, res) => {
@@ -38,6 +37,7 @@ const updateProfile = async (req, res) => {
         message: "Name cannot be empty",
       });
     }
+
 
     const userId = req.user.id;
     const user = await userModel.findById(userId);
@@ -57,7 +57,9 @@ const updateProfile = async (req, res) => {
     }
 
     if (req.file) {
-      const result = await storageService.uploadImageToCloudinary(req.file.path);
+      const result = await storageService.uploadImageToCloudinary(
+        req.file.path,
+      );
       user.image = result.secure_url;
     }
 
@@ -68,7 +70,6 @@ const updateProfile = async (req, res) => {
       message: "Profile updated successfully",
       user,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -79,6 +80,6 @@ const updateProfile = async (req, res) => {
 };
 
 module.exports = {
-   getUserProfile,
-   updateProfile
+  getUserProfile,
+  updateProfile,
 };

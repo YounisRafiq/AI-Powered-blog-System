@@ -1,12 +1,19 @@
-import React , { useEffect } from 'react'
-import "./Navbar.css"
+import React, { useEffect } from "react";
+import "./Navbar.css";
 import gsap from "gsap";
 
-const Navbar = ({isOpen}) => {
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
-useEffect(() => {
-  gsap.fromTo(
-     ".animate-logo",
+const Navbar = ({ isOpen }) => {
+  useEffect(() => {
+    gsap.fromTo(
+      ".animate-logo",
       {
         y: -20,
         opacity: 0,
@@ -18,18 +25,28 @@ useEffect(() => {
         ease: "power2.out",
       }
     );
-} , []);
+  }, []);
 
   return (
-    <div>
-      <nav className="navbar">
-        <div className="navbar-logo animate-logo">
-          <h2 className={isOpen ? "logo-hide" : ""}>Blogi</h2>
-        </div>
-      </nav>
-    </div>
-  )
-}
+    <nav className="navbar">
+      
+      <div className="navbar-logo animate-logo">
+        <h2 className={isOpen ? "logo-hide" : ""}>Blogi</h2>
+      </div>
 
-export default Navbar
+      <div className="navbar-auth">
+        <SignedOut>
+          <SignInButton mode="modal" />
+          <SignUpButton mode="modal" />
+        </SignedOut>
 
+        <SignedIn>
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
+      </div>
+
+    </nav>
+  );
+};
+
+export default Navbar;

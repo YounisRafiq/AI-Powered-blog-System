@@ -7,16 +7,16 @@ import Navbar from "./components/Navbar";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
-import gif from "../src/assets/loading.gif"
+import gif from "../src/assets/loading.gif";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); 
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);

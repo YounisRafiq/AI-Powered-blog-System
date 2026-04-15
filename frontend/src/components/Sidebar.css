@@ -204,6 +204,18 @@
     width: 50px;
   }
 
+  .fa-circle-user{
+    font-size: 20px !important;
+  }
+  .name{
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logout{
+    margin-left: 9px;
+  }
   .new-chat i{
     font-size: 15px ;
     margin-left: 6px;
