@@ -30,23 +30,31 @@
   align-items: center;
 }
 
-.content input {
+.content textarea {
   width: 100%;
-  padding: 18px 20px 18px 25px;
+  padding: 18px 50px;
   border: none;
   outline: none;
   background: #303030;
   font-size: 16px;
   border-radius: 50px;
   color: whitesmoke;
+
+  resize: none;
+  overflow-y: auto;
+  max-height: 150px; /* limit */
 }
 
-.content input::placeholder {
+.content textarea::-webkit-scrollbar{
+  display: none;
+}
+
+.content textarea::placeholder {
   color: #afafaf;
   font-size: 16.5px;
 }
 
-.content input:disabled {
+.content textarea:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -123,13 +131,12 @@
 .ai-message .message-bubble {
   background: #2a2a2a;
   color: #e5e5e5;
-  border-bottom-left-radius: 6px;
 }
 
 .user-message .message-bubble {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  border-bottom-right-radius: 6px;
+  border-radius: 50px;
 }
 
 .typing-indicator {
@@ -254,7 +261,7 @@
     width: 100%;
   }
 
-  .inputs input {
+  .inputs textarea {
     padding: 12px 45px 12px 15px;
     font-size: 14px;
   }
@@ -289,7 +296,7 @@
     height: calc(100vh - 70px);
   }
 
-  .content input {
+  .content textarea {
     padding: 15px 50px 15px 20px;
     font-size: 14px;
   }
@@ -309,7 +316,7 @@
 
 @media (max-width: 300px) {
   .chat-container {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 50px);
   }
 
   .content {
@@ -332,7 +339,7 @@
     justify-content: center;
     align-items: center;
   }
-  .chat-input-container .inputs input {
+  .chat-input-container .inputs textarea {
     font-size: 14px;
   }
 
@@ -342,10 +349,13 @@
     font-size: 14px;
     border-radius: 25px;
   }
+  .chat-input-container {
+    margin-top: 10px;
+  }
 }
 
 @media (min-width: 768px) {
-  .content input {
+  .content textarea {
     font-size: 16px;
   }
 }
@@ -355,7 +365,7 @@
     display: none;
   }
 
-  .inputs input::placeholder {
+  .inputs textarea::placeholder {
     font-size: 11px;
   }
 

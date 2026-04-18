@@ -5,7 +5,7 @@ const { getResponseFromGroq } = require("../services/aiService");
 
 const generateBlog = async (req, res) => {
   try {
-    const { prompt  } = req.body;
+    const { prompt } = req.body;
 
     if (!prompt || prompt.trim() === "") {
       return res.status(400).json({ message: "Prompt is required!" });
@@ -155,7 +155,7 @@ const generateBlog = async (req, res) => {
         "don",
         "should",
         "now",
-        "including"
+        "including",
       ];
       const filtered = words.filter(
         (word) => !stopWords.includes(word) && word.length > 2,
@@ -191,8 +191,7 @@ const generateBlog = async (req, res) => {
     }
 
     blog.keywords = keywordsIDs;
-   await blog.save();
-
+    await blog.save();
 
     const populatedBlog = await blogModel
       .findById(blog._id)
@@ -310,23 +309,78 @@ const updateBlog = async (req, res) => {
 
 const blogProfile = async (req, res) => {
   try {
-    const blog = await blogModel.findById(req.params.id).populate("author", "fullName email");
+    const blog = await blogModel
+      .findById(req.params.id)
+      .populate("author", "fullName email");
 
-   if(!blog){
-    return res.status(404).json({
-      message: "Blog not found",
-    });
-   }
+    if (!blog) {
+      return res.status(404).json({
+        message: "Blog not found",
+      });
+    }
 
     res.status(200).json({
       message: "Blog Profile Fetched SuccessFully",
       blog,
     });
-
   } catch (error) {
     res.status(500).json({
       message: "Error while fetching blog profile",
       error: error.message,
+    });
+  }
+};
+
+const getAllChats = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const chats = await promptModel
+      .find({ user: userId , isSystem : false })
+      .populate("post", "title")
+      .sort({ createdAt: -1 });
+
+    const formattedChats = chats.map((item) => ({
+      id: item._id,
+      title: item.post?.title || item.prompt,
+      createdAt: item.createdAt,
+    }));
+
+    res.status(200).json({
+      success: true,
+      chats: formattedChats,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch chats",
+    });
+  }
+};
+
+const getNewChat = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const newChat = promptModel.create({
+      prompt: "New-Chat",
+      user: userId,
+      isSystem: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      chat: {
+        _id: newChat._id,
+        title: "New Chat",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to create new chat",
     });
   }
 };
@@ -337,5 +391,7 @@ module.exports = {
   getSingleBlog,
   deleteBlog,
   updateBlog,
+  getNewChat,
   blogProfile,
+  getAllChats,
 };

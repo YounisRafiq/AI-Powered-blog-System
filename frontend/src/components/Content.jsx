@@ -5,7 +5,7 @@ import axios from "axios";
 import gsap from "gsap";
 import SplitType from "split-type";
 
-const Content = ({ isOpen }) => {
+const Content = ({ isOpen , currentChatId }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -53,6 +53,9 @@ const Content = ({ isOpen }) => {
       },
     );
   }, []);
+
+
+
 
   useEffect(() => {
     if (!hasStartedChat) {
@@ -103,6 +106,8 @@ const Content = ({ isOpen }) => {
         { withCredentials: true },
       );
 
+      window.dispatchEvent(new Event("refreshChats"));
+
       const aiMessage = {
         text:
           res.data.blog.content ||
@@ -128,19 +133,60 @@ const Content = ({ isOpen }) => {
     }
   };
 
+
+
+  useEffect(() => {
+  const handler = () => {
+    setMessages([]);   
+    setInput("");     
+    setHasStartedChat(false); 
+    setIsTyping(false); 
+    setLoading(false);
+  };
+
+  window.addEventListener("clearMessages", handler);
+
+  return () => window.removeEventListener("clearMessages", handler);
+}, []);
+
+  useEffect(() => {
+  if (!currentChatId) return;
+
+  const fetchMessages = async () => {
+    const res = await axios.get(
+      `http://localhost:3000/api/v1/blog/chats`,
+      { withCredentials: true }
+    );
+
+    const chat = res.data.chats.find(
+      (c) => c.id === currentChatId
+    );
+
+    if (chat) {
+      setMessages([]); // (abhi simple version)
+    }
+  };
+
+  fetchMessages();
+}, [currentChatId]);
+
   return (
     <div className={`content ${isOpen ? "hide-content" : ""}`}>
       {!hasStartedChat ? (
         <>
           <h2 className="headline">Where should we begin?</h2>
           <div className="inputs animate">
-            <input
+            <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              type="text"
               placeholder="Ask anything..."
               onClick={handleInputClick}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
             />
             <i
               onClick={handleSend}
@@ -176,13 +222,17 @@ const Content = ({ isOpen }) => {
             className={`chat-input-container ${isOpen ? "sidebar-open" : ""}`}
           >
             <div className="inputs">
-              <input
+              <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                type="text"
                 placeholder="Type your message..."
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                disabled={loading}
+                onClick={handleInputClick}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
               />
               <i
                 onClick={handleSend}

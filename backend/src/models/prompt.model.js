@@ -13,6 +13,10 @@ const promptSchema = new mongoose.Schema({
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Blog",
+    },
+    isSystem : {
+        type : Boolean,
+        default : false
     }
 }, { timestamps: true });
 
