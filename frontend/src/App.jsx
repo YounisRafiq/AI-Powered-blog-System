@@ -12,7 +12,8 @@ import gif from "../src/assets/loading.gif";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [currentChatId , setCurrentchatId] = useState(null);
+const [currentChatId, setCurrentChatId] = useState(null);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,10 +38,10 @@ function App() {
           path="/"
           element={
             <div className={isOpen ? "layout open" : "layout closed"}>
-              <Sidebar setCurrentchatId={setCurrentchatId} isOpen={isOpen} setIsOpen={setIsOpen} />
+              <Sidebar setCurrentChatId={setCurrentChatId} isOpen={isOpen} setIsOpen={setIsOpen} />
               <div className="main-area">
                 <Navbar isOpen={isOpen} />
-                <Content currentChild={currentChatId} setCurrentchatId={setCurrentchatId} isOpen={isOpen} />
+                <Content currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} isOpen={isOpen} />
               </div>
             </div>
           }

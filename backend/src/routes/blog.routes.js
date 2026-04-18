@@ -8,7 +8,6 @@ router.get("/chats" , authMiddleware.authMiddleware , blogController.getAllChats
 router.post("/new-chat" , authMiddleware.authMiddleware , blogController.getNewChat);
 router.get("/:id" , authMiddleware.authMiddleware , blogController.blogProfile);
 router.get("/" , blogController.getAllBlogs);
-router.get("/:id" , blogController.getSingleBlog);
 router.get("/delete/:id" , authMiddleware.authMiddleware ,  blogController.deleteBlog);
 router.put("/update/:id" , authMiddleware.authMiddleware , blogController.updateBlog);
 

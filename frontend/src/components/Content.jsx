@@ -163,12 +163,13 @@ const Content = ({ isOpen , currentChatId }) => {
     );
 
     if (chat) {
-      setMessages([]); // (abhi simple version)
+      setMessages([]);
     }
   };
 
   fetchMessages();
 }, [currentChatId]);
+
 
   return (
     <div className={`content ${isOpen ? "hide-content" : ""}`}>

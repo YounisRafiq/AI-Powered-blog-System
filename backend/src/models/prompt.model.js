@@ -14,10 +14,6 @@ const promptSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Blog",
     },
-    isSystem : {
-        type : Boolean,
-        default : false
-    }
 }, { timestamps: true });
 
 const Prompt = mongoose.model("Prompt", promptSchema);

@@ -15,6 +15,7 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [chats, setChats] = useState([]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,9 +35,7 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
     fetchData();
   }, []);
 
-  const handleOpenChat = (chatId) => {
-    setCurrentChatId(chatId);
-  };
+ 
 
   const handleLogout = async () => {
     try {
@@ -129,7 +128,7 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
     return () => window.removeEventListener("refreshChats", handler);
   }, []);
 
-  const handleNewChat = async () => {
+const handleNewChat = async () => {
   try {
     const res = await axios.post(
       "http://localhost:3000/api/v1/blog/new-chat",
@@ -137,7 +136,11 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
       { withCredentials: true }
     );
 
-    const chatId = res.data.chat._id;
+    console.log("NEW CHAT RESPONSE:", res.data);
+
+    const chatId = res.data?.chat?._id;
+
+    if (!chatId) return;
 
     window.dispatchEvent(new Event("clearMessages"));
 
@@ -195,8 +198,8 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
       {isOpen && showChat && isLoggedIn && (
         <div className="chat-list">
           {chats.map((chat) => (
-            <span key={chat._id} onClick={() => handleOpenChat(chat._id)}>
-              {chat.title}
+            <span key={chat.id} >
+              {chat.title.length > 20 ? chat.title.slice(0 , 20) + "..." : chat.title}
             </span>
           ))}
         </div>
