@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import gsap from "gsap";
 
-const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
+const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId , theme }) => {
   const imgRef = useRef([]);
   const hasAnimated = useRef(false);
   const navigate = useNavigate();
@@ -190,20 +190,33 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
           </span>
         </div>
       )}
-
-      {isOpen && showChat && isLoggedIn && (
+      {isOpen && showChat && (
         <div className="chat-list">
-          {chats.map((chat) => (
-            <span onClick={() => {setCurrentChatId(chat._id);
-              console.log("Selected Chat ID:", chat._id);
-            }}
-              key={chat.id}
-            >
-              {chat.title.length > 20
-                ? chat.title.slice(0, 20) + "..."
-                : chat.title}
-            </span>
-          ))}
+          {!isLoggedIn || chats.length === 0 ? (
+            <p style={{ color: "whitesmoke", padding: "0 10px" }}>
+              No chats yet. Start a new chat!
+            </p>
+          ) : (
+            chats.map((chat) => (
+              <>
+
+              <div className="chat-list-icon">
+                <span
+                  onClick={() => {
+                    setCurrentChatId(chat._id);
+                    console.log("Selected Chat ID:", chat._id);
+                  }}
+                  key={chat._id}
+                >
+                  {chat.title?.length > 20
+                    ? chat.title.slice(0, 20) + "..."
+                    : chat.title}
+                </span>
+                
+                </div>
+              </>
+            ))
+          )}
         </div>
       )}
 

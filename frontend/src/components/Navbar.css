@@ -9,21 +9,25 @@
   position: fixed;
   z-index: 999;
 }
-
-.navbar-auth {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+.navbar.light{
+  background: #f0f0f0;
+  color: #212121 !important;
 }
+
+.navbar.light .navbar-logo h2{
+  color: #212121 !important;
+}
+
+.navbar.dark{
+  background: #13131a;
+  color: #f0f0f0 !important;
+}
+
 .navbar-logo {
   display: flex;
+  align-items: center;
 }
-.navbar-logo img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  cursor: pointer;
-}
+
 .navbar-logo img:hover {
   transform: rotate(180deg);
   transition: all 0.5s ease-in-out;

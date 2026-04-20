@@ -23,6 +23,8 @@ const [currentChatId, setCurrentChatId] = useState(null);
     return () => clearTimeout(timer);
   }, []);
 
+
+
   if (loading) {
     return (
       <div className="loading">
@@ -31,6 +33,7 @@ const [currentChatId, setCurrentChatId] = useState(null);
     );
   }
 
+
   return (
     <Router>
       <Routes>
@@ -38,9 +41,9 @@ const [currentChatId, setCurrentChatId] = useState(null);
           path="/"
           element={
             <div className={isOpen ? "layout open" : "layout closed"}>
-              <Sidebar setCurrentChatId={setCurrentChatId} isOpen={isOpen} setIsOpen={setIsOpen} />
+              <Sidebar  setCurrentChatId={setCurrentChatId} isOpen={isOpen} setIsOpen={setIsOpen} />
               <div className="main-area">
-                <Navbar isOpen={isOpen} />
+                <Navbar isOpen={isOpen}   />
                 <Content currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} isOpen={isOpen} />
               </div>
             </div>
