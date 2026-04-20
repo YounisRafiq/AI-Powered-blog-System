@@ -42,7 +42,7 @@
 
   resize: none;
   overflow-y: auto;
-  max-height: 150px; /* limit */
+  max-height: 150px;
 }
 
 .content textarea::-webkit-scrollbar{
@@ -128,10 +128,15 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+
 .ai-message .message-bubble {
   background: #2a2a2a;
   color: #e5e5e5;
+  display: flex;
+  flex-direction: column;
 }
+
+
 
 .user-message .message-bubble {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

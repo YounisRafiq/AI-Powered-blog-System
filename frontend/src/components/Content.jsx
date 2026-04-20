@@ -5,7 +5,7 @@ import axios from "axios";
 import gsap from "gsap";
 import SplitType from "split-type";
 
-const Content = ({ isOpen , currentChatId }) => {
+const Content = ({ isOpen, currentChatId }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -53,9 +53,6 @@ const Content = ({ isOpen , currentChatId }) => {
       },
     );
   }, []);
-
-
-
 
   useEffect(() => {
     if (!hasStartedChat) {
@@ -117,7 +114,7 @@ const Content = ({ isOpen , currentChatId }) => {
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       const errorMsg = {
         text: "Sorry, something went wrong. Try again?",
         isUser: false,
@@ -133,43 +130,52 @@ const Content = ({ isOpen , currentChatId }) => {
     }
   };
 
-
-
   useEffect(() => {
-  const handler = () => {
-    setMessages([]);   
-    setInput("");     
-    setHasStartedChat(false); 
-    setIsTyping(false); 
-    setLoading(false);
-  };
-
-  window.addEventListener("clearMessages", handler);
-
-  return () => window.removeEventListener("clearMessages", handler);
-}, []);
-
-  useEffect(() => {
-  if (!currentChatId) return;
-
-  const fetchMessages = async () => {
-    const res = await axios.get(
-      `http://localhost:3000/api/v1/blog/chats`,
-      { withCredentials: true }
-    );
-
-    const chat = res.data.chats.find(
-      (c) => c.id === currentChatId
-    );
-
-    if (chat) {
+    const handler = () => {
       setMessages([]);
-    }
-  };
+      setInput("");
+      setHasStartedChat(false);
+      setIsTyping(false);
+      setLoading(false);
+    };
 
-  fetchMessages();
-}, [currentChatId]);
+    window.addEventListener("clearMessages", handler);
 
+    return () => window.removeEventListener("clearMessages", handler);
+  }, []);
+
+  useEffect(() => {
+    if (!currentChatId) return;
+
+    const fetchChat = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/v1/blog/chat/${currentChatId}`,
+          { withCredentials: true },
+        );
+
+        const chat = res.data.chat;
+
+        console.log("Fetched Chat:", chat);
+
+        setMessages([
+          {
+            text: chat.title,
+            isUser: true,
+          },
+          {
+            text: chat.content,
+            isUser: false,
+          },
+        ]);
+        setHasStartedChat(true);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchChat();
+  }, [currentChatId]);
 
   return (
     <div className={`content ${isOpen ? "hide-content" : ""}`}>

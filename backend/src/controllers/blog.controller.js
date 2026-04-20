@@ -8,6 +8,7 @@ const generateBlog = async (req, res) => {
   try {
     const { prompt } = req.body;
 
+
     if (!prompt || prompt.trim() === "") {
       return res.status(400).json({ message: "Prompt is required!" });
     }
@@ -20,6 +21,7 @@ const generateBlog = async (req, res) => {
 
     const content = await getResponseFromGroq(prompt);
 
+    console.log(content);
 
     const blog = await blogModel.create({
       prompt: promptDoc._id,
@@ -27,6 +29,7 @@ const generateBlog = async (req, res) => {
       content: content,
       author: req.user._id,
     });
+
 
     const extractKeywords = (content) => {
       const words = content.toLowerCase().match(/\b\w+\b/g);
@@ -210,7 +213,7 @@ const getAllChats = async (req, res) => {
       .sort({ createdAt: -1 });
 
     const formattedChats = chats.map((item) => ({
-      id: item._id,
+      _id: item._id,
       title: item.post?.title || item.prompt,
       createdAt: item.createdAt,
     }));
@@ -256,12 +259,65 @@ const getNewChat = async (req, res) => {
   }
 };
 
+const getSingleChat = async (req ,res) => {
+  try {
+    
+   const userId = req.user.id;
+   const chatId = req.params.id;
+
+if(!mongoose.Types.ObjectId.isValid(chatId)){
+  return res.status(400).json({
+    success : false,
+    message : "Invalid Chat Id"
+  })
+};
+
+
+
+const chat = await promptModel.findOne({_id : chatId , user : userId}).populate("post" , "title content");
+
+if(chat.user.toString() !== userId.toString()){
+  return res.status(403).json({
+    success : false,
+    message : "Unauthorized Access to this chat"
+  })
+};
+
+if(!chat){
+  return res.status(404).json({
+    success : false,
+    message : "Chat Not Found"
+  })
+};
+
+res.status(200).json({
+  success : true,
+  chat : {
+    _id : chat._id,
+    title : chat.post?.title || chat.prompt,
+    content : chat.post?.content || "No Content Available in this chat yet.",
+  }
+})
+
+  } catch (error) {
+    res.status(500).json({
+      success : false,
+      message : "Failed to fetch chat details"
+    });
+  }
+}
+
+
+
+
+
 module.exports = {
   generateBlog,
   getAllBlogs,
   deleteBlog,
   updateBlog,
   getNewChat,
+  getSingleChat,
   blogProfile,
   getAllChats,
 };
