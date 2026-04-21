@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import "./Login.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import gif from "../assets/loading.gif";
-
+import { useContext } from "react";
+import { ThemeContext } from "./Context";
 const Login = () => {
+
+  const { theme } = useContext(ThemeContext);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",

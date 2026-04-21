@@ -7,7 +7,7 @@
 .auth-container {
   min-height: 100vh;
   width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .loading {
@@ -16,7 +16,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +32,7 @@
 .auth-form-wrapper {
   backdrop-filter: blur(25px);
   border-radius: 20px;
-    overflow: scroll !important;
+  overflow: scroll !important;
 
   padding: 40px;
   width: 100%;
@@ -101,6 +101,13 @@
   font-size: 1rem;
   transition: all 0.3s ease;
 }
+
+.light .form-group input[type="email"],
+.light .form-group input[type="password"]{
+   background: rgba(226, 225, 225, 0.8);
+  color: #333;
+}
+ 
 
 .form-group input:focus {
   outline: none;
@@ -178,7 +185,7 @@
     align-items: flex-start;
     padding-top: 60px;
   }
-  
+
   .auth-form-wrapper {
     width: 100%;
     max-width: none;
@@ -190,20 +197,20 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .auth-header h1 {
     font-size: 2rem;
   }
-  
+
   .auth-header p {
     font-size: 1.05rem;
   }
-  
+
   .form-group input {
     padding: 18px 20px;
     font-size: 1.05rem;
   }
-  
+
   .auth-btn {
     padding: 18px;
     font-size: 1.15rem;
@@ -216,7 +223,7 @@
     margin: 0 10px;
     border-radius: 20px;
   }
-  
+
   .auth-header h1 {
     font-size: 1.85rem;
   }
@@ -226,11 +233,11 @@
   .auth-header h1 {
     font-size: 1.75rem;
   }
-  
+
   .auth-form {
     gap: 18px;
   }
-  
+
   .form-group label {
     font-size: 0.9rem;
   }
@@ -240,7 +247,7 @@
   .auth-container {
     padding: 10px;
   }
-  
+
   .auth-form-wrapper {
     padding: 25px 18px;
     margin: 0 8px;
@@ -253,11 +260,11 @@
     padding: 22px 16px;
     margin: 0 6px;
   }
-  
+
   .auth-header h1 {
     font-size: 1.65rem;
   }
-  
+
   .form-group input,
   .auth-btn {
     padding: 16px 18px;
@@ -269,26 +276,26 @@
   .auth-container {
     padding: 8px;
   }
-  
+
   .auth-form-wrapper {
     padding: 20px 14px;
     margin: 0 4px;
     border-radius: 16px;
   }
-  
+
   .auth-header h1 {
     font-size: 1.55rem;
   }
-  
+
   .auth-header p {
     font-size: 0.95rem;
   }
-  
+
   .form-group input {
     padding: 15px 16px;
     font-size: 0.98rem;
   }
-  
+
   .auth-btn {
     padding: 15px 16px;
     font-size: 1.05rem;
@@ -301,7 +308,7 @@
     max-height: 100vh;
     overflow: hidden;
   }
-  
+
   .auth-form {
     gap: 15px;
   }
@@ -313,4 +320,3 @@
     border-width: 0.5px;
   }
 }
-

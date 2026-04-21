@@ -4,8 +4,7 @@ import gsap from "gsap";
 import { useContext } from "react";
 import { ThemeContext } from "./Context";
 const Navbar = ({ isOpen }) => {
-
-   const { theme , toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const logoRef = useRef();
 
@@ -21,7 +20,7 @@ const Navbar = ({ isOpen }) => {
         opacity: 1,
         duration: 1,
         ease: "power2.out",
-      }
+      },
     );
   }, []);
 
@@ -30,7 +29,11 @@ const Navbar = ({ isOpen }) => {
       <div className="navbar-logo" ref={logoRef}>
         <h2 className={isOpen ? "logo-hide" : ""}>Blogi</h2>
 
-        <i title={theme === "light" ? "Enable DarkMode" : "Enable LightMode"} onClick={toggleTheme} className={theme === "light" ? "fa-solid fa-moon" : "fa-solid fa-sun"}></i>
+        <i id={isOpen ? "icon-hide" : ""}
+          title={theme === "light" ? "Enable DarkMode" : "Enable LightMode"}
+          onClick={toggleTheme}
+          className={theme === "light" ? "fa-solid fa-moon" : "fa-solid fa-sun"}
+        ></i>
       </div>
     </nav>
   );

@@ -91,6 +91,12 @@
   transition: all 0.3s ease;
 }
 
+.light .form-group input[type="text"],
+.light .form-group input[type="file"]{
+  background: rgba(226, 225, 225, 0.8);
+  color: #333;
+}
+
 .form-group input:focus {
   outline: none;
   border-color: #667eea;

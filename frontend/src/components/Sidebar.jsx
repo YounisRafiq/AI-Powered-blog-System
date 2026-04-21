@@ -238,7 +238,7 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
           </Link>
         ) : (
           <Link to="/user/login">
-            <i className="fa-regular fa-circle-user"></i>
+            <i style={{color : theme === "light" ? "black" : "white"}} className="fa-regular fa-circle-user"></i>
           </Link>
         )}
         <div className="name">
@@ -251,7 +251,7 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
               ) : (
                 <Link
                   style={{
-                    color: "whitesmoke",
+                    color: theme === "light" ? "black" : "white",
                     fontSize: "17px",
                     marginBottom: "5px",
                     display: "inline-block",

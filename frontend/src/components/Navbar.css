@@ -20,6 +20,7 @@
 .navbar-logo {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .navbar-logo i{
@@ -56,9 +57,18 @@
 }
 
 
-@media (max-width: 768px) {
+@media screen and (min-width : 301px) and (max-width: 768px) {
   .logo-hide {
     display: none;
+  }
+
+  #icon-hide{
+    display: none;
+  }
+
+  .navbar-logo i{
+    display: inline;
+    margin-top: 18px;
   }
 
   .navbar-logo h2 {
@@ -66,10 +76,12 @@
     margin-top: 5px;
   }
 }
+
 @media screen and (max-width: 300px) {
   .navbar-logo h2 {
     font-size: 16px;
     margin-top: 15px;
     padding: 0;
   }
+
 }
