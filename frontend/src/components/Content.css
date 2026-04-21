@@ -45,6 +45,14 @@
   max-height: 150px;
 }
 
+.light .content textarea {
+  background: #d9d7d7;
+  color: #111111;
+}
+.light .content textarea::placeholder {
+  color: #555;
+}
+
 .content textarea::-webkit-scrollbar{
   display: none;
 }
@@ -70,6 +78,14 @@
   transition: 0.3s;
 }
 
+.light .inputs i {
+  color: #555;
+}
+
+.light .inputs i:hover {
+  color: #111111;
+}
+
 .inputs i:hover {
   color: white;
 }
@@ -91,12 +107,11 @@
   flex-direction: column;
   padding: 20px 0 100px 0;
   gap: 16px;
-  scrollbar-width: thin;
-  scrollbar-color: #555 transparent;
 }
 
+
 .messages-container::-webkit-scrollbar {
-  width: 2px;
+  display: none;
 }
 
 .messages-container::-webkit-scrollbar-track {
@@ -134,6 +149,11 @@
   color: #e5e5e5;
   display: flex;
   flex-direction: column;
+}
+
+.light .ai-message .message-bubble {
+  background: #e0e0e0;
+  color: #111111;
 }
 
 
@@ -224,13 +244,14 @@
   color: #93afaf;
   text-align: center;
   margin: 0;
-}
-
-.disclaimer {
   text-align: center;
   color: #93afaf;
   font-size: 13px;
   margin-top: 8px;
+}
+
+.light .disclaimer {
+  color: #555;
 }
 
 .chat-input-container.sidebar-open {
