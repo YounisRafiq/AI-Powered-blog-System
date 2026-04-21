@@ -48,6 +48,13 @@
   font-weight: 700;
 }
 
+.light .sidebar-logo img{
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  object-position: center;
+}
+
 .light .sidebar::-webkit-scrollbar {
   background: #f0f0f0;
 }

@@ -1,12 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Sidebar.css";
 import logo from "../assets/image.png";
+import logo2 from "../assets/logo2.png";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import gsap from "gsap";
 
-const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId , theme }) => {
+import { useContext } from "react";
+import { ThemeContext } from "./Context";
+
+const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId }) => {
+
+  const { theme } = useContext(ThemeContext);
+
   const imgRef = useRef([]);
   const hasAnimated = useRef(false);
   const navigate = useNavigate();
@@ -158,7 +165,7 @@ const Sidebar = ({ isOpen, setIsOpen, setCurrentChatId , theme }) => {
         ref={(el) => (imgRef.current[0] = el)}
         className="animate-item sidebar-logo"
       >
-        <img src={logo} onClick={() => setIsOpen(true)} title="open sidebar" />
+        <img src={theme === "light" ? logo2 : logo} onClick={() => setIsOpen(true)} title="open sidebar" />
 
         <i
           title="close sidebar"
